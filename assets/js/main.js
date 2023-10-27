@@ -16,19 +16,27 @@ function convertPokemonToLi(pokemon) {
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
 
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                <img src="${pokemon.photo}" alt="${pokemon.name}">
             </div>
         </li>
-    `
+    `;
 }
 
 function loadPokemonItens(offset, limit) {
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
-    })
+        const newHtml = pokemons.map(convertPokemonToLi).join('');
+        pokemonList.innerHTML += newHtml;
+
+        // Adicionar eventos de clique a todos os elementos com a classe "pokemon"
+        const pokemonElements = document.querySelectorAll('.pokemon');
+        pokemonElements.forEach((element, index) => {
+            element.addEventListener('click', () => {
+                window.location.href = `./details.html?id=${index + 1}`;
+            });
+        });
+    });
 }
+
 
 loadPokemonItens(offset, limit)
 
